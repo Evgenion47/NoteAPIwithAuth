@@ -14,6 +14,7 @@ func CreateNote(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Unable to decode the request body.  %v", err)
 	}
+	note.OwnerId = r.Header.Get("name")
 	insertId := repository.CreateNote(note)
 
 	res := models.Response{

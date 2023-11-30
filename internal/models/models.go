@@ -21,6 +21,7 @@ type UpdateNote struct {
 }
 
 type CreateNote struct {
+	OwnerId     string `json:"ownerId"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 }

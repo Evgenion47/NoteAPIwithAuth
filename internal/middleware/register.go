@@ -16,7 +16,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	err = repository.Register(credentials)
 	if err != nil {
-		log.Printf("Unable create user")
+		log.Printf("%v", err)
 	}
 
 }

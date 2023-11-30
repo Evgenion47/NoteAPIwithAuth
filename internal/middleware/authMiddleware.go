@@ -3,6 +3,7 @@ package middleware
 import (
 	"API/internal/utils"
 	"github.com/dgrijalva/jwt-go"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -24,7 +25,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		name := claims.(jwt.MapClaims)["name"].(string)
-
+		log.Println("name: " + name)
 		r.Header.Set("name", name)
 
 		next.ServeHTTP(w, r)

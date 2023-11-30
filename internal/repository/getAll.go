@@ -22,7 +22,7 @@ func GetAll() (models.Notes, error) {
 
 	for rows.Next() {
 		var note models.Note
-		err = rows.Scan(&note.ID, &note.Title, &note.Description, &note.Completion, &note.CreatedAt)
+		err = rows.Scan(&note.ID, &note.OwnerID, &note.Title, &note.Description, &note.Completion, &note.CreatedAt)
 		if err != nil {
 			log.Fatalf("Unable to scan the row. %v", err)
 		}

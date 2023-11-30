@@ -10,12 +10,13 @@ import (
 func Authenticate(credentials models.AuthInfo) bool {
 	dbconn := db.CreateConn()
 	var pass string
-	query := `select userid from users where userid=$1 and password=$2)`
-	err := dbconn.QueryRow(query, credentials.UserId, credentials.Password).Scan(&pass)
+	query := `select password from users where userid=$1`
+	err := dbconn.QueryRow(query, credentials.UserId).Scan(&pass)
 	if err != nil {
 		log.Printf("Unable to execute the query. %v", err)
 	}
-	if bcrypt.CompareHashAndPassword([]byte(pass), []byte(credentials.Password)) != nil {
+	if err = bcrypt.CompareHashAndPassword([]byte(pass), []byte(credentials.Password)); err != nil {
+		log.Printf("%v", err)
 		return false
 	}
 	return true
