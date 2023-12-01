@@ -31,7 +31,8 @@ type Notes struct {
 }
 
 type NoteId struct {
-	ID int64 `json:"id"`
+	ID      int64  `json:"id"`
+	OwnerID string `json:"ownerId"`
 }
 
 type Response struct {

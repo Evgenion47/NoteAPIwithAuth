@@ -10,14 +10,13 @@ import (
 func UpdateNote(id models.NoteId, note models.UpdateNote) int64 {
 	db := db.CreateConn()
 	defer db.Close()
-	query := `update notes set title=$2, description=$3, completion=$4 where noteid=$1`
-	res, err := db.Exec(query, id.ID, note.Title, note.Description, note.Completion)
+	query := `update notes set title=$3, description=$4, completion=$5 where noteid=$1 and ownerid=$2`
+	res, err := db.Exec(query, id.ID, id.OwnerID, note.Title, note.Description, note.Completion)
 
 	if err != nil {
 		log.Fatalf("Unable to execute the query. %v", err)
 	}
 
-	// check how many rows affected
 	rowsAffected, err := res.RowsAffected()
 
 	if err != nil {

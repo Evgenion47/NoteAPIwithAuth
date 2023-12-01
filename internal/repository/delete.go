@@ -10,8 +10,8 @@ import (
 func DeleteNote(id models.NoteId) int64 {
 	db := db.CreateConn()
 	defer db.Close()
-	query := `delete from notes where noteid=$1`
-	res, err := db.Exec(query, id.ID)
+	query := `delete from notes where noteid=$1 and ownerid=$2`
+	res, err := db.Exec(query, id.ID, id.OwnerID)
 	if err != nil {
 		log.Fatalf("Unable to execute the query. %v", err)
 	}

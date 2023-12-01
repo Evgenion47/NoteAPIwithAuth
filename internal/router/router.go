@@ -13,6 +13,7 @@ func Router() *mux.Router {
 	router.HandleFunc("/register/", middleware.Register).Methods("POST", "OPTIONS")
 	router.Handle("/api/v1/{id}", middleware.AuthMiddleware(http.HandlerFunc(middleware.CreateNote))).Methods("POST", "OPTIONS")
 	router.Handle("/api/v1/{id}", middleware.AuthMiddleware(http.HandlerFunc(middleware.UpdateNote))).Methods("PUT", "OPTIONS")
+	router.Handle("/api/v1/{id}", middleware.AuthMiddleware(http.HandlerFunc(middleware.DeleteNote))).Methods("DELETE", "OPTIONS")
 	router.Handle("/api/v1/", middleware.AuthMiddleware(http.HandlerFunc(middleware.CreateNote))).Methods("POST", "OPTIONS")
 	router.Handle("/logout/", middleware.AuthMiddleware(http.HandlerFunc(middleware.Logout))).Methods("GET", "OPTIONS")
 

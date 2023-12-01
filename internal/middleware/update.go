@@ -14,7 +14,7 @@ import (
 func UpdateNote(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
-	noteId := models.NoteId{ID: int64(id)}
+	noteId := models.NoteId{ID: int64(id), OwnerID: r.Header.Get("name")}
 	if err != nil {
 		log.Fatalf("Unable to convert the string into int.  %v", err)
 	}
@@ -28,16 +28,18 @@ func UpdateNote(w http.ResponseWriter, r *http.Request) {
 
 	updatedRows := repository.UpdateNote(noteId, note)
 
-	// format the message string
-	msg := fmt.Sprintf("Note updated successfully. Total rows/record affected %v", updatedRows)
+	res := models.Response{}
 
-	// format the response message
-	res := models.Response{
-		ID:      int64(id),
-		Message: msg,
+	if updatedRows == 0 {
+		res.ID = -1
+		res.Message = "Record not found or permission denied"
+		w.WriteHeader(404)
+	} else {
+		msg := fmt.Sprintf("Note updated successfully. Total rows/record affected %v", updatedRows)
+		res.ID = int64(id)
+		res.Message = msg
 	}
 
-	// send the response
 	json.NewEncoder(w).Encode(res)
 
 }
